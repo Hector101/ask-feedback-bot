@@ -12,7 +12,10 @@ module.exports = {
   getFeedback(req, res) {
     const userInput = req.body.text;
     if (isBadWord(userInput) === true) {
-      return res.send({ text: 'Sorry your feedback is not in ASK format, make some corrections and resend' });
+      return res.status(400)
+        .send({
+          text: 'Sorry your feedback is not in ASK format, make some corrections and resend'
+        });
     }
     const channel = userInput.match(/(@\w+\b)/g);
 

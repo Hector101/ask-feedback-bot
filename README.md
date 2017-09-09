@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Hector101/ask-feedback-bot.svg?branch=staging)](https://travis-ci.org/Hector101/ask-feedback-bot)
 ## Askify Feedback Bot
 
 ### Description
@@ -38,7 +39,7 @@ Install nodejs version 6 and above
 +  To run tests, navigate to the project's root directory
 +  Run the following commands.
   +  `$ npm run test`
-  
+
 
 ## Disclaimer
 This app and its functions are limited by time constraint and is in no way at its best.
