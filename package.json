@@ -1,0 +1,35 @@
+{
+  "name": "ask-feedback-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "mocha server/test/server.spec.js --timeout 20000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hector101/ask-feedback-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hector101/ask-feedback-bot/issues"
+  },
+  "homepage": "https://github.com/Hector101/ask-feedback-bot#readme",
+  "dependencies": {
+    "eslint": "^4.6.1",
+    "body-parser": "^1.14.2",
+    "ejs": "2.3.3",
+    "express": "4.13.3",
+    "request": "^2.67.0"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-import": "^2.7.0",
+    "mocha": "^3.5.0",
+    "should": "^13.0.1",
+    "supertest": "^3.0.0"
+  }
+}
