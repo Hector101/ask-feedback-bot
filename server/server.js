@@ -21,7 +21,7 @@ app.post('/feedback', (req, res) => {
   const channel = userInput.match(/(@\w+\b)/g);
   if (!channel) {
     return res
-      .send({ message: 'Please specify the recipient of this feedback.' });
+      .send({ text: 'Please specify the recipient of this feedback.' });
   }
 
   const sendMessage = url.format({
