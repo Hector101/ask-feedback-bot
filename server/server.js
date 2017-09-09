@@ -10,18 +10,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.send('It works!');
+  res
+    .send({ text: 'Hello , i am ask-feedback-bot and am here to help you' });
 });
 
 app.post('/feedback', (req, res) => {
   const userInput = req.body.text;
   if (isBadWord(userInput) === true) {
-    return res.send({ message: 'Sorry your feedback is not in ASK format' });
+    return res.send({ text: 'Sorry your feedback is not in ASK format' });
   }
   const channel = userInput.match(/(@\w+\b)/g);
   if (!channel) {
     return res
-      .send({ message: 'Please specify the recipient of this feedback.' });
+      .send({ text: 'Please specify the recipient of this feedback.' });
   }
 
   const sendMessage = url.format({
@@ -35,7 +36,7 @@ app.post('/feedback', (req, res) => {
 
   request(sendMessage, (error, response, body) => {
     if (!error) {
-      res.send({ message: 'Feedback sent' });
+      res.send({ text: 'Feedback sent' });
     }
   });
 });

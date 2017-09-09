@@ -3,18 +3,58 @@ const should = require('should');
 const app = require('../server.js');
 
 const server = supertest.agent(app);
+describe('Default route', () => {
+  it('should return `a welcome text` when route is called', (done) => {
+    server
+      .get('/')
+      .expect(200)
+      .end((err, res) => {
+        res.status.should.equal(200);
+        res.body.text
+          .should
+          .equal('Hello , i am ask-feedback-bot and am here to help you');
+        done();
+      });
+  });
+});
 
 describe('Feedback route', () => {
-  it('should return home page', (done) => {
+  it('should return `Feedback sent` when text specifies username', (done) => {
     server
       .post('/feedback')
       .send({ text: '@tony you are a good listener' })
       .expect(200)
       .end((err, res) => {
-        console.log(res.body);
         res.status.should.equal(200);
-        res.body.message.should.equal('Feedback sent');
+        res.body.text.should.equal('Feedback sent');
+        done();
+      });
+  });
+
+  it('should deny access when no user is specified', (done) => {
+    server
+      .post('/feedback')
+      .send({ text: 'you are a good listener' })
+      .expect(200)
+      .end((err, res) => {
+        res.status.should.equal(200);
+        res.body.text.should
+          .equal('Please specify the recipient of this feedback.');
+        done();
+      });
+  });
+
+  it('should return `Sorry your feedback is not in ASK format` when you a profane word is added', (done) => {
+    server
+      .post('/feedback')
+      .send({ text: '@tony you are a fucking bad listener' })
+      .expect(200)
+      .end((err, res) => {
+        res.status.should.equal(200);
+        res.body.text.should
+          .equal('Sorry your feedback is not in ASK format');
         done();
       });
   });
 });
+
