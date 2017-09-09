@@ -45,9 +45,8 @@ describe('Feedback route', () => {
     server
       .post('/feedback')
       .send({ text: '@tony you are a fucking bad listener' })
-      .expect(200)
       .end((err, res) => {
-        res.status.should.equal(200);
+        res.status.should.equal(400);
         res.body.text.should
           .equal('Sorry your feedback is not in ASK format, make some corrections and resend');
         done();
