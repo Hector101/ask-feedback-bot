@@ -9,5 +9,4 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 routes(app);
 
-
 module.exports = app;

@@ -1,7 +1,7 @@
 const controller = require('../controllers/feedback');
 
 
-module.export = (route) => {
-  route.post('/feedback', controller.getFeedback);
+module.exports = (route) => {
   route.get('/', controller.getHomePage);
+  route.post('/feedback', controller.getFeedback);
 };
