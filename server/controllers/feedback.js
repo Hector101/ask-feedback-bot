@@ -43,17 +43,17 @@ module.exports = {
         mrkdwn_in: ['text'],
         actions: [
           {
-            name: 'yes',
+            name: 'answer',
             text: 'Yes',
             type: 'button',
-            value: 'yes',
+            value: `${req.body.user_name}=yes`,
             style: 'success'
           },
           {
-            name: 'no',
+            name: 'answer',
             text: 'No',
             type: 'button',
-            value: 'no',
+            value: `${req.body.user_name}=no`,
             style: 'danger'
           }
         ]
@@ -100,4 +100,16 @@ module.exports = {
     });
   },
 
+  /**
+   * feedback survey response
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   * @return {Object} server response
+   */
+  handleMessageAction(req, res) {
+    console.log(req.body, '===========');
+    return res.status(200).send({
+      text: 'Your message was received'
+    });
+  }
 };
