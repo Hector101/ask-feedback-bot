@@ -112,7 +112,7 @@ module.exports = {
     Helper.sendAskifyFeedbackResponse(payloadJSON.response_url, message);
 
     const text = payloadJSON.actions[0].value === 'no'
-      ? 'The person you sent feedback to doesn\'t think this feedback is in the ASK format. Please be EPIC and always send ASK feedback'
+      ? `*_${payloadJSON.user.name}_* doesn't think this feedback is in the ASK format. Please be EPIC and always send ASK feedback`
       : 'Your feedback has been received';
 
     const query = {
