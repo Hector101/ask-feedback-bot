@@ -11,7 +11,7 @@ describe('Default route', () => {
         res.status.should.equal(200);
         res.body.text
           .should
-          .equal('Hello , i am ask-feedback-bot and am here to help you');
+          .equal('Hello , i am askify and am here to help you');
         done();
       });
   });
