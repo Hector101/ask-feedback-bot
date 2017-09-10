@@ -7,9 +7,9 @@ Growth is a very important part of our lives as Humans. We all want to grow our 
 Askify is here to improve the whole process of giving ASK feedback. Askify makes it possible for Andelans to give and receive ASK feedback anonymously.
 
 Askify is built on NodeJS and requires the following `Permission Scopes` from Slack:
-   +  chat:write:bot
-   +  bot
-   +  incoming-webhook
+   +  `chat:write:bot`
+   +  `bot`
+   +  `incoming-webhook`
 
 ### Features:
    +  Send anonymous ASKified feedback to Andelans
