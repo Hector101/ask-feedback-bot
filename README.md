@@ -2,14 +2,22 @@
 ## Askify Feedback Bot
 
 ### Description
-+ Built on NodeJS
-+ Features:
-   +  Sending anonymous ASKified feedback to Andelans
+Growth is a very important part of our lives as Humans. We all want to grow our finances, value, or importance. One of the ways of growing and improving is by constantly getting feedback from people. Here at Andela, we are encouraged to give ASK (Actionable, Specific, Kind) feedback and sometimes people are reluctant about giving feedback for various reasons.
+
+Askify is here to improve the whole process of giving ASK feedback. Askify makes it possible for Andelans to give and receive ASK feedback anonymously.
+
+Askify is built on NodeJS and requires the following `Permission Scopes` from Slack:
+   +  chat:write:bot
+   +  bot
+   +  incoming-webhook
+
+### Features:
+   +  Send anonymous ASKified feedback to Andelans
    +  Deny sending of message if not ASKified
 
 ### Benefits of using this app
-+ Allows Andelans to give ASKified feedback to colleagues that they would rather not give in person
-+ Encourage giving of feedback amonsts the Andela community
++ This will encourage more people to give ASKified feedback to colleagues that they would rather not give in person
++ Encourage giving of feedback amongst the Andela community
 
 ## Prerequisite Requirement
 ```
@@ -30,9 +38,8 @@ Install nodejs version 6 and above
   +  `$ npm start`
 
 ## Using the app
-  +  `navigate to any channel on Andela channel`
-  +  `click the text box and enter the following command`
-  +  `/askify-feedback <@recipiend_username> <message body>`
+  +  `navigate to any channel on Andela Slack Channel`. (For test purposes, register and use this Slack account: `https://andela-ask-feedback.slack.com`)
+  +  click the text box and enter the askify command: `/askify <@recipient_username> <message body>`
 
 ## Running the tests
 +  The tests were written using Mocha, and supertest libraries
