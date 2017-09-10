@@ -10,7 +10,7 @@ module.exports = {
   getFeedback(req, res) {
     if (!req.body.text) {
       Helper.handleResponse(
-        400,
+        200,
         'Please specify your feedback in the correct format',
         res
       );
@@ -18,7 +18,7 @@ module.exports = {
     const userInput = req.body.text;
     if (Helper.isBadWord(userInput) === true) {
       return Helper.handleResponse(
-        400,
+        200,
         'Sorry your feedback is not in ASK format, make some corrections and resend',
         res
       );
@@ -27,7 +27,7 @@ module.exports = {
 
     if (!channel) {
       return Helper.handleResponse(
-        400,
+        200,
         'Please specify the recipient of this feedback.',
         res
       );
