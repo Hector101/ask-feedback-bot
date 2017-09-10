@@ -9,7 +9,7 @@ module.exports = {
    */
   getFeedback(req, res) {
     if (!req.body.text) {
-      Helper.handleResponse(
+      return Helper.handleResponse(
         200,
         'Please specify your feedback in the correct format',
         res
@@ -23,6 +23,7 @@ module.exports = {
         res
       );
     }
+
     const channel = userInput.match(/(@\w+\b)/g);
 
     if (!channel) {
@@ -81,7 +82,7 @@ module.exports = {
   getHomePage(req, res) {
     return Helper.handleResponse(
       200,
-      'Hello , i am ask-feedback-bot and am here to help you',
+      'Hello , i am askify and am here to help you',
       res
     );
   },
