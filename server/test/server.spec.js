@@ -66,3 +66,15 @@ describe('Feedback route', () => {
   });
 });
 
+describe('Message-action route', () => {
+  it('should return `Access forbidden` and 403 status there is no payload', (done) => {
+    server
+      .post('/message-action')
+      .send({})
+      .end((err, res) => {
+        res.status.should.equal(403);
+        res.body.text.should.equal('Access forbidden');
+        done();
+      });
+  });
+});

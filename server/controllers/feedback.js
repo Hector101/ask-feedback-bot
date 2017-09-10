@@ -1,6 +1,4 @@
-const url = require('url');
-const request = require('request');
-const isBadWord = require('../helpers/isBadWord');
+const Helper = require('../helpers/Helper');
 
 module.exports = {
   /**
@@ -11,24 +9,28 @@ module.exports = {
    */
   getFeedback(req, res) {
     if (!req.body.text) {
-      return res.status(400).send({
-        text: 'Please specify your feedback in the correct format'
-      });
+      Helper.handleResponse(
+        400,
+        'Please specify your feedback in the correct format',
+        res
+      );
     }
     const userInput = req.body.text;
-    if (isBadWord(userInput) === true) {
-      return res.status(400)
-        .send({
-          text: 'Sorry your feedback is not in ASK format, make some corrections and resend'
-        });
+    if (Helper.isBadWord(userInput) === true) {
+      return Helper.handleResponse(
+        400,
+        'Sorry your feedback is not in ASK format, make some corrections and resend',
+        res
+      );
     }
     const channel = userInput.match(/(@\w+\b)/g);
 
     if (!channel) {
-      return res.status(400)
-        .send({
-          text: 'Please specify the recipient of this feedback.'
-        });
+      return Helper.handleResponse(
+        400,
+        'Please specify the recipient of this feedback.',
+        res
+      );
     }
 
     /**
@@ -36,56 +38,38 @@ module.exports = {
      */
     const attachments = [
       {
-        fallback: 'Do you think this feedback is askified.',
-        text: '_Do you think this feedback is askified_',
+        fallback: 'Do you think this feedback is askified?',
+        text: '_Do you think this feedback is askified?_',
         callback_id: 'ask_response',
         attachment_type: 'default',
         mrkdwn_in: ['text'],
         actions: [
           {
-            name: 'answer',
+            name: req.body.user_name,
             text: 'Yes',
             type: 'button',
-            value: `${req.body.user_name}=yes`,
+            value: 'yes',
             style: 'success'
           },
           {
-            name: 'answer',
+            name: req.body.user_name,
             text: 'No',
             type: 'button',
-            value: `${req.body.user_name}=no`,
+            value: 'no',
             style: 'danger'
           }
         ]
       }
     ];
 
-    /**
-     * format request message
-     */
-    const message = url.format({
-      pathname: 'https://slack.com/api/chat.postMessage',
-      query: {
-        token: process.env.SLACK_TOKEN,
-        channel: channel[0],
-        text: userInput,
-        attachments: JSON.stringify(attachments),
-      }
-    });
+    const query = {
+      token: process.env.SLACK_TOKEN,
+      channel: channel[0],
+      text: userInput,
+      attachments: JSON.stringify(attachments),
+    };
 
-    /**
-     * send request to slack API
-     */
-    request(message, (error, response, body) => {
-      if (error) {
-        return res.status(400).send({
-          text: 'Feedback not sent successfully'
-        });
-      }
-      return res.status(200).send({
-        text: 'Feedback sent successfully'
-      });
-    });
+    return Helper.sendAskifyFeedback(query, res);
   },
 
   /**
@@ -95,9 +79,11 @@ module.exports = {
    * @return {Object} server response
    */
   getHomePage(req, res) {
-    return res.status(200).send({
-      text: 'Hello , i am ask-feedback-bot and am here to help you'
-    });
+    return Helper.handleResponse(
+      200,
+      'Hello , i am ask-feedback-bot and am here to help you',
+      res
+    );
   },
 
   /**
@@ -107,9 +93,34 @@ module.exports = {
    * @return {Object} server response
    */
   handleMessageAction(req, res) {
-    console.log(req.body, '===========');
-    return res.status(200).send({
-      text: 'Your message was received'
-    });
-  }
+    if (!req.body.payload) {
+      return Helper.handleResponse(403, 'Access forbidden', res);
+    }
+
+    res.status(200).end();
+
+    const payloadJSON = JSON.parse(req.body.payload);
+    if (payloadJSON.token !== process.env.VERIFICATION_TOKEN) {
+      return Helper.handleResponse(403, 'Access forbidden', res);
+    }
+
+    const message = {
+      text: payloadJSON.original_message.text,
+      replace_original: true
+    };
+
+    Helper.sendAskifyFeedbackResponse(payloadJSON.response_url, message);
+
+    const text = payloadJSON.actions[0].value === 'no'
+      ? 'The person you sent feedback to doesn\'t think this feedback is in the ASK format. Please be EPIC and always send ASK feedback'
+      : 'Your feedback has been received';
+
+    const query = {
+      token: process.env.SLACK_TOKEN,
+      channel: `@${payloadJSON.actions[0].name}`,
+      text: `*Feedback Response: * ${text}`,
+    };
+
+    Helper.sendAskifyFeedback(query, res, false);
+  },
 };
