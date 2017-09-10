@@ -29,24 +29,22 @@ describe('Feedback route', () => {
       });
   });
 
-  it('should return a status of 400 and an error message if text is not supplied', (done) => {
+  it('should send an error message to the slack user if text is not supplied', (done) => {
     server
       .post('/feedback')
       .send({})
       .end((err, res) => {
-        res.status.should.equal(400);
         res.body.text.should
           .equal('Please specify your feedback in the correct format');
         done();
       });
   });
 
-  it('should deny access when no user is specified', (done) => {
+  it('should inform the user when no username is specified', (done) => {
     server
       .post('/feedback')
       .send({ text: 'you are a good listener' })
       .end((err, res) => {
-        res.status.should.equal(400);
         res.body.text.should
           .equal('Please specify the recipient of this feedback.');
         done();
@@ -58,7 +56,6 @@ describe('Feedback route', () => {
       .post('/feedback')
       .send({ text: '@tony you are a fucking bad listener' })
       .end((err, res) => {
-        res.status.should.equal(400);
         res.body.text.should
           .equal('Sorry your feedback is not in ASK format, make some corrections and resend');
         done();
